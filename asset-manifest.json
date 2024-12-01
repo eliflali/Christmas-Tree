@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Christmas-Tree/static/css/main.87cd9298.css",
+    "main.js": "/Christmas-Tree/static/js/main.e9bdb582.js",
+    "static/js/453.53044b76.chunk.js": "/Christmas-Tree/static/js/453.53044b76.chunk.js",
+    "static/media/gift.jpeg": "/Christmas-Tree/static/media/gift.1efe2e7857c2c3aa2c1f.jpeg",
+    "index.html": "/Christmas-Tree/index.html",
+    "main.87cd9298.css.map": "/Christmas-Tree/static/css/main.87cd9298.css.map",
+    "main.e9bdb582.js.map": "/Christmas-Tree/static/js/main.e9bdb582.js.map",
+    "453.53044b76.chunk.js.map": "/Christmas-Tree/static/js/453.53044b76.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.87cd9298.css",
+    "static/js/main.e9bdb582.js"
+  ]
+}
