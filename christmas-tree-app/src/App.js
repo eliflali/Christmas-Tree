@@ -6,16 +6,17 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import TreePage from './TreePage';
 import SharedTreePage from './SharedTreePage';
-
+import NotesPage from './NotesPage';
 const App = () => {
    return (
-       <Router>
+       <Router basename="/Christmas-Tree">
            <Routes>
                <Route path="/" element={<MainPage />} />
                <Route path="/register" element={<RegisterPage />} />
                <Route path="/login" element={<LoginPage />} />
                <Route path="/tree/:treeId" element={<TreePage />} />
                <Route path="/shared/:treeId" element={<SharedTreePage />} /> {/* Shared link route */}
+               <Route path="/tree/:treeId/notes" element={<NotesPage />} />
            </Routes>
        </Router>
    );

@@ -4,12 +4,12 @@ import './MainPage.css'; // Import the CSS styles
 
 const MainPage = () => {
   const navigate = useNavigate();
-
+  console.log(process.env.PUBLIC_URL)
   return (
     <div className="main-page">
       <div className="tree-container">
         <img
-          src="/main_page_tree.gif"  // Ensure this path is correct
+        src={`${process.env.PUBLIC_URL}/main_page_tree.gif`} // Ensure this path is correct
           alt="Christmas Tree"
           className="elegant-tree"
         />

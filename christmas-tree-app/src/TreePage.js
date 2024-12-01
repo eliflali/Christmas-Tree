@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import './TreePage.css'; // Ensure CSS is imported
@@ -8,6 +8,7 @@ const db = getFirestore();
 
 const TreePage = () => {
   const { treeId } = useParams();
+  const navigate = useNavigate(); // For navigation
   const [tree, setTree] = useState(null);
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
@@ -51,7 +52,7 @@ const TreePage = () => {
   };
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/shared/${treeId}`;
+    const link = `${window.location.origin}/Christmas-Tree/shared/${treeId}`;
     navigator.clipboard.writeText(link);
     alert('Tree link copied to clipboard!');
   };
@@ -60,6 +61,10 @@ const TreePage = () => {
     setCurrentNoteIndex((prevIndex) =>
       prevIndex === 0 ? notes.length - 1 : prevIndex - 1
     );
+  };
+
+  const redirectToNotesPage = () => {
+    navigate(`/tree/${treeId}/notes`, { state: { notes, treeName: tree?.treeName } });
   };
 
   const closeCarousel = () => {
@@ -73,12 +78,12 @@ const TreePage = () => {
       </div>
     );
   }
-  
+
   if(!tree) {
     return (
     <div className="loading-container">
       <img
-        src="/loading.gif"  // Ensure this path is correct
+        src={`${process.env.PUBLIC_URL}/loading.gif`} // Ensure this path is correct
         alt="Christmas Tree"
         className="loading-tree"
       />
@@ -94,9 +99,9 @@ const TreePage = () => {
           loop
           muted
           playsInline
-          src='/christmas_lights.mp4'
+          src={`${process.env.PUBLIC_URL}/christmas_lights.mp4`}
         >
-          <source src="christmas_lights.mp4" type="video/mp4" />
+          <source src={`${process.env.PUBLIC_URL}/christmas_lights.mp4`} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -122,10 +127,10 @@ const TreePage = () => {
       
       <div className="tree-container">
         <img
-          src="/christmas_tree.webp"  // Ensure this path is correct
+          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`}  // Ensure this path is correct
           alt="Christmas Tree"
           className="elegant-tree"
-          onClick={() => setShowCarousel(true)}
+          onClick={() => redirectToNotesPage()}
         />
       </div>
 

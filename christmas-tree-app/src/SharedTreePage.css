@@ -171,7 +171,7 @@ body {
 }
 
 .success-message {
-  color: #32CD32;
+  color: var(--gold-accent);
   text-align: center;
   margin-top: 1rem;
 }
@@ -211,3 +211,24 @@ body {
     height: auto; /* Maintain aspect ratio */
     z-index: 11; /* Keep it above the semi-transparent background */
   }
+
+  .gif-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Ensures it stays in view */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for exact centering */
+    z-index: 100; /* Make sure it stays above other elements */
+    text-align: center;
+  }
+  
+  .tree-monster-gif {
+    max-width: 80%; /* Responsive width for all screen sizes */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 15px;
+  }
+  
+  

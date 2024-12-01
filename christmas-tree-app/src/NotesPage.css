@@ -1,0 +1,60 @@
+.notes-page {
+    padding: 0;
+    background: #000000;
+    min-height: 100vh;
+    color: #fff5e1;
+    font-family: 'Merriweather', serif;
+    position: relative; /* Ensure stacking context */
+}
+
+.notes-header {
+    z-index: 10; /* Position above lights */
+    position: relative; /* Ensure it's above the lights */
+    text-align: center;
+}
+
+.notes-header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: #daa520; /* Replace var(--gold-accent) if not defined */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    position: relative; /* Ensure it's above the lights */
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+    z-index: 10; /* Position above lights */
+    position: relative; /* Ensure stacking context */
+}
+
+.note-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #daa520;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 500px;
+    text-align: center;
+    z-index: 10; /* Position above lights */
+    position: relative; /* Ensure stacking context */
+}
+
+.note-card h3 {
+    color: #daa520;
+    z-index: 10; /* Position above lights */
+    position: relative; /* Ensure stacking context */
+}
+
+.note-card p {
+    color: #fff;
+    z-index: 10; /* Position above lights */
+    position: relative; /* Ensure stacking context */
+}
+
+
