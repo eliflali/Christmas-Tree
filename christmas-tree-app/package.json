@@ -2,6 +2,7 @@
   "name": "christmas-tree-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://eliflali.github.io/Christmas-Tree",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -9,6 +10,7 @@
     "firebase": "^11.0.2",
     "firebase-admin": "^13.0.1",
     "firebase-functions": "^6.1.1",
+    "gh-pages": "^6.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.1",
@@ -19,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
