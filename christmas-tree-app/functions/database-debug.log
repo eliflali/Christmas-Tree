@@ -1,0 +1,4 @@
+21:25:30.768 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+21:25:30.866 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+21:25:36.076 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - christmas-tree-db307-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 64ms, init: 0ms
+21:25:36.126 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace christmas-tree-db307-default-rtdb status Active to Active

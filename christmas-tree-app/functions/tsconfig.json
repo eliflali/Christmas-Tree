@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2017"
+    "module": "commonjs",           // Required for Node.js compatibility
+    "target": "es2020",             // Use ES2020 for modern syntax support
+    "outDir": "lib",                // Output compiled files to 'lib' directory
+    "rootDir": "src",               // Source files are in the 'src' directory
+    "strict": true,                 // Enable strict type checking
+    "noImplicitReturns": true,      // Prevent missing returns in functions
+    "noUnusedLocals": true,         // Warn about unused local variables
+    "esModuleInterop": true,        // Allow importing CommonJS modules
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing
+    "sourceMap": true               // Generate source maps for debugging
   },
-  "compileOnSave": true,
   "include": [
-    "src"
-  ]
+    "src"                           // Include all files in 'src' directory
+  ],
+  "exclude": [
+    "node_modules",                 // Exclude 'node_modules' from compilation
+    "lib"                           // Exclude the output directory
+  ],
+  "compileOnSave": true
 }

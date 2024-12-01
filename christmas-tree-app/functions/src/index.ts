@@ -1,9 +1,14 @@
-import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
-import { createTree, deleteTree } from './treeFunctions';
-import { addNote, deleteNote } from './noteFunctions';
+import * as admin from "firebase-admin";
+
+// Import functions from other files
+import {createTree, deleteTree} from "./treeFunctions";
+import {addNote, deleteNote} from "./noteFunctions";
 
 // Initialize Firebase Admin SDK
-admin.initializeApp();
+if (!admin.apps.length) {
+  admin.initializeApp();
+  console.log("Firebase Admin initialized");
+}
 
-export { createTree, deleteTree, addNote, deleteNote };
+// Export the functions
+export {createTree, deleteTree, addNote, deleteNote};

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
+import TreePage from './TreePage';
 
 const App = () => {
    return (
@@ -12,6 +13,7 @@ const App = () => {
                <Route path="/" element={<MainPage />} />
                <Route path="/register" element={<RegisterPage />} />
                <Route path="/login" element={<LoginPage />} />
+               <Route path="/tree/:treeId" element={<TreePage />} />
            </Routes>
        </Router>
    );
