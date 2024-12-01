@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // To handle redirection
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
+import './LoginPage.css'; // Import the CSS styles
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -27,30 +28,52 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} style={{ display: 'inline-block', textAlign: 'left' }}>
-        <div>
-          <label>Email:</label>
+    <div className="christmas-login-page">
+      {/* Background Snowflakes */}
+      <div className="lights-container">
+        <video
+          className="christmas-lights-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          src='/christmas_lights.mp4'
+        >
+          <source src="christmas_lights.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <header className="christmas-header">
+        <h1 className="page-title">Welcome Back</h1>
+        <p>Your tree misses you.</p>
+      </header>
+
+      <div className="login-card">
+        <h2 className="login-title">Login</h2>
+        <form onSubmit={handleLogin}>
           <input
             type="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="login-input"
             required
           />
-        </div>
-        <div>
-          <label>Password:</label>
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="login-input"
             required
           />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+          <button type="submit" className="login-button">
+            🎄 Login
+          </button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
 };

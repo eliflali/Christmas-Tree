@@ -1,0 +1,93 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@300;400;700&display=swap');
+
+/* CSS Variables for easy theming */
+:root {
+  --deep-green: #124611;
+  --rich-red: #8B0000;
+  --gold-accent: #DAA520;
+  --soft-cream: #FFF5E1;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main Page Styling */
+.main-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--rich-red);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+
+
+
+/* Header Styling */
+.main-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 2;
+}
+
+.main-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3.5rem;
+  color: var(--gold-accent);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.main-header p {
+  font-family: 'Merriweather', serif;
+  font-size: 1.2rem;
+  color: var(--soft-cream);
+  margin-bottom: 2rem;
+}
+
+/* Buttons Styling */
+.main-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.main-button {
+  background: var(--rich-red);
+  color: var(--soft-cream);
+  border: 2px solid var(--gold-accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.main-button:hover {
+  background: var(--gold-accent);
+  color: var(--deep-green);
+  transform: scale(1.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .main-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}

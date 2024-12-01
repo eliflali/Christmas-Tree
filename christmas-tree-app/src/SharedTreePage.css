@@ -1,0 +1,213 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@300;400;700&display=swap');
+
+/* CSS Variables for easy theming */
+:root {
+  --deep-green: #0c340c;
+  --rich-red: #8B0000;
+  --gold-accent: #DAA520;
+  --soft-cream: #FFF5E1;
+  --black: #000000;
+}
+
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Merriweather', serif;
+  line-height: 1.6;
+  background-color: var(--black);
+}
+/* Lights container for the video */
+.lights-container {
+    position: fixed;
+    width: 100%;
+    margin-bottom: 0px;
+    z-index: 0;
+  }
+  
+  .christmas-lights-video {
+    width: 100%; /* Adjust as needed */
+    height: 100%;
+    top:0;
+    left: 0;
+    border-radius: 0px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    display: block;
+  }
+
+/* Main Container */
+.christmas-tree-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--black);
+  overflow: hidden;
+  padding: 0;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+
+
+/* Header Styles */
+.christmas-header {
+    margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 10;
+  position: relative;
+}
+
+.tree-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: var(--gold-accent);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px; /* Add padding for better visibility */
+    border-radius:20px; /* Optional: Add rounded corners */
+    margin-bottom: 1rem;
+  }
+  
+
+/* Tree Container */
+.tree-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.elegant-tree {
+  max-width: 300px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.elegant-tree:hover {
+  transform: scale(1.05);
+}
+
+/* Note Adding Container */
+.add-note-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.memory-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--gold-accent);
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.add-note-title {
+  font-family: 'Great Vibes', cursive;
+  color: var(--gold-accent);
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.note-input, 
+.note-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--gold-accent);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--soft-cream);
+  font-family: 'Merriweather', serif;
+}
+
+.note-input::placeholder, 
+.note-textarea::placeholder {
+  color: rgba(218, 165, 32, 0.7);
+}
+
+.note-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.christmas-button {
+  background: var(--rich-red);
+  color: var(--soft-cream);
+  border: 2px solid var(--gold-accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  align-self: center;
+}
+
+.christmas-button:hover {
+  background: var(--gold-accent);
+  color: var(--deep-green);
+  transform: scale(1.05);
+}
+
+.success-message {
+  color: #32CD32;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.error-message {
+  color: #FF4500;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .tree-title {
+    font-size: 2.5rem;
+  }
+  
+  .add-note-title {
+    font-size: 2rem;
+  }
+}
+
+.loading-container {
+    position: fixed; /* Ensure it covers the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    z-index: 10; /* Ensure it's above other content */
+    background: rgba(0, 0, 0, 0.8); /* Optional: Add a semi-transparent background */
+  }
+  
+  .loading-tree {
+    max-width: 150px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 11; /* Keep it above the semi-transparent background */
+  }

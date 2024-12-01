@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { auth } from './firebase'; // Firebase Authentication instance
 import { collection, doc, setDoc } from 'firebase/firestore';
+import './RegisterPage.css'; // Import the CSS styles
 
 const db = getFirestore();
 
@@ -41,40 +42,59 @@ const RegisterPage = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Register</h1>
-      <form onSubmit={handleRegister} style={{ display: 'inline-block', textAlign: 'left' }}>
-        <div>
-          <label>Name:</label>
+    <div className="christmas-register-page">
+      {/* Background Snowflakes */}
+      <div className="lights-container">
+        <video
+          className="christmas-lights-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          src='/christmas_lights.mp4'
+        >
+          <source src="christmas_lights.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <header className="christmas-header">
+      </header>
+
+      <div className="register-card">
+        <h2 className="register-title">Sign Up</h2>
+        <form onSubmit={handleRegister}>
           <input
             type="text"
+            placeholder="Your Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="register-input"
             required
           />
-        </div>
-        <div>
-          <label>Email:</label>
           <input
             type="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="register-input"
             required
           />
-        </div>
-        <div>
-          <label>Password:</label>
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="register-input"
             required
           />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+          <button type="submit" className="register-button">
+            🎄 Register
+          </button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
+      </div>
     </div>
   );
 };

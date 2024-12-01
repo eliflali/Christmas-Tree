@@ -1,0 +1,232 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@300;400;700&display=swap');
+
+/* CSS Variables for easy theming */
+:root {
+  --deep-green: #124611;
+  --rich-red: #8B0000;
+  --gold-accent: #DAA520;
+  --soft-cream: #FFF5E1;
+  --black: #000000;
+}
+
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Merriweather', serif;
+  line-height: 1.6;
+  background-color: var(--deep-green);
+}
+
+/* Main Container */
+.christmas-tree-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--soft-cream);
+  overflow: hidden;
+  padding: 2rem;
+}
+
+
+/* Header Styles */
+.christmas-header {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 10;
+  position: relative;
+}
+
+.tree-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 4rem;
+  color: var(--gold-accent);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
+}
+.lights-container {
+    position: fixed;
+    width: 100%;
+    margin-bottom: 0px;
+    z-index: 0;
+  }
+  
+  .christmas-lights-video {
+    width: 100%; /* Adjust as needed */
+    height: 100%;
+    top:0;
+    left: 0;
+    border-radius: 0px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    display: block;
+  }
+
+.tree-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.christmas-button {
+  background: var(--rich-red);
+  color: var(--soft-cream);
+  border: 2px solid var(--gold-accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.christmas-button:hover {
+  background: var(--gold-accent);
+  color: var(--deep-green);
+  transform: scale(1.05);
+}
+
+/* Tree Container */
+.tree-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  z-index: 10;
+}
+
+.elegant-tree {
+  max-width: 300px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.elegant-tree:hover {
+  transform: scale(1.05);
+}
+.loading-container {
+    position: fixed; /* Ensure it covers the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    z-index: 10; /* Ensure it's above other content */
+    background: rgba(0, 0, 0, 0.8); /* Optional: Add a semi-transparent background */
+  }
+  
+  .loading-tree {
+    max-width: 150px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 11; /* Keep it above the semi-transparent background */
+  }
+  
+/* Memory Carousel */
+.memory-carousel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: center;
+    z-index: 100;
+  
+    
+  }
+  
+  .carousel-content {
+    background: rgba(218, 165, 32, 0.2); /* Golden overlay */
+    border: 3px solid var(--gold-accent);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 500px; /* Width of the card */
+    width: 90%; /* Responsive width */
+    text-align: center; /* Center the text */
+    backdrop-filter: blur(10px); /* Adds a blur effect */
+    display: flex;
+    flex-direction: column; /* Align items in a column */
+    justify-content: center; /* Vertically align content within the card */
+    align-items: center; /* Horizontally align content within the card */
+
+    /* Add background image with low opacity */
+    background-image: url('/public/gift.jpeg'); /* Path to your stars image */
+    background-size: cover; /* Ensure the image covers the entire area */
+    background-repeat: no-repeat; /* Prevent tiling */
+    background-position: center; /* Center the image */
+    opacity: 0.9; /* Adjust opacity for a subtle effect */
+  }
+  
+  /* Memory Card */
+  .memory-card {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    border: 1px solid var(--gold-accent);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center; /* Center text inside the card */
+    max-width: 100%; /* Ensure it fits within the carousel */
+  }
+  
+  .memory-card h3 {
+    color: var(--gold-accent);
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .memory-card p {
+    color: var(--soft-cream);
+    font-family: 'Merriweather', serif;
+    line-height: 1.6;
+  }
+  
+  /* Carousel Navigation Buttons */
+  .carousel-navigation {
+    display: flex;
+    justify-content: space-between; /* Spread buttons apart */
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .carousel-navigation button {
+    background: var(--rich-red);
+    color: var(--soft-cream);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .carousel-navigation button:hover {
+    background: var(--gold-accent);
+    color: var(--deep-green);
+  }
+  
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .tree-title {
+    font-size: 2.5rem;
+  }
+  
+  .christmas-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

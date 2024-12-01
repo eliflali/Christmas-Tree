@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, query, onSnapshot } from 'firebase/firestore';
-import { auth } from './firebase';
+import './TreePage.css'; // Ensure CSS is imported
 
 const db = getFirestore();
 
 const TreePage = () => {
-  const { treeId } = useParams(); // Get the treeId from the URL
-  const navigate = useNavigate();
-
+  const { treeId } = useParams();
   const [tree, setTree] = useState(null);
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
+  const [showCarousel, setShowCarousel] = useState(false);
+  const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
 
-  // Fetch the tree data
+  // Fetch tree data
   useEffect(() => {
     const fetchTree = async () => {
       try {
@@ -29,14 +29,12 @@ const TreePage = () => {
         setError('Failed to fetch tree data');
       }
     };
-
     fetchTree();
   }, [treeId]);
 
   // Fetch notes in real-time
   useEffect(() => {
     if (!treeId) return;
-
     const notesQuery = query(collection(db, 'trees', treeId, 'notes'));
     const unsubscribe = onSnapshot(notesQuery, (snapshot) => {
       const fetchedNotes = snapshot.docs.map((doc) => ({
@@ -45,45 +43,115 @@ const TreePage = () => {
       }));
       setNotes(fetchedNotes);
     });
-
     return () => unsubscribe();
   }, [treeId]);
 
-  // Copy the tree link to clipboard
+  const nextNote = () => {
+    setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
+  };
+
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/tree/${treeId}`;
+    const link = `${window.location.origin}/shared/${treeId}`;
     navigator.clipboard.writeText(link);
     alert('Tree link copied to clipboard!');
   };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const previousNote = () => {
+    setCurrentNoteIndex((prevIndex) =>
+      prevIndex === 0 ? notes.length - 1 : prevIndex - 1
+    );
+  };
 
-  if (!tree) {
-    return <p>Loading tree...</p>;
+  const closeCarousel = () => {
+    setShowCarousel(false);
+  };
+
+  if (error) {
+    return (
+      <div className="christmas-tree-page">
+        <p className="error-message">Oh we are so sorry, but this tree is not available.</p>
+      </div>
+    );
+  }
+  
+  if(!tree) {
+    return (
+    <div className="loading-container">
+      <img
+        src="/loading.gif"  // Ensure this path is correct
+        alt="Christmas Tree"
+        className="loading-tree"
+      />
+    </div>);
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <h1>{tree.treeName}</h1>
-      <img
-        src="/christmas-tree.png" // Replace with a valid tree image path
-        alt="Christmas Tree"
-        style={{ width: '200px', height: '300px' }}
-      />
-      <div>
-        <button onClick={() => navigate(`/tree/${treeId}/notes`)}>Show My Notes</button>
-        <button onClick={handleCopyLink}>Share My Tree Link</button>
+    <div className="christmas-tree-page">
+      <div className="lights-container">
+        <video
+          className="christmas-lights-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          src='/christmas_lights.mp4'
+        >
+          <source src="christmas_lights.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
-      <h2>Notes</h2>
-      <ul>
-        {notes.map((note) => (
-          <li key={note.id}>
-            <strong>{note.name}</strong>: {note.content}
-          </li>
-        ))}
-      </ul>
+      <header className="christmas-header">
+        <h1 className="tree-title">
+          {error || (!tree ? 'Christmas Memory Tree' : tree.treeName)}
+        </h1>
+        <div className="tree-actions">
+          <button 
+            className="christmas-button" 
+            onClick={() => setShowCarousel(true)}
+          >
+            🎄 View Memories
+          </button>
+          <button 
+            className="christmas-button" 
+            onClick={handleCopyLink}
+          >
+            🔗 Share Tree
+          </button>
+        </div>
+      </header>
+      
+      <div className="tree-container">
+        <img
+          src="/christmas_tree.webp"  // Ensure this path is correct
+          alt="Christmas Tree"
+          className="elegant-tree"
+          onClick={() => setShowCarousel(true)}
+        />
+      </div>
+
+      {showCarousel && (
+        <div className="memory-carousel" onClick={closeCarousel}>
+          <div 
+            className="carousel-content" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            {notes.length > 0 ? (
+              <>
+                <div className="memory-card">
+                  <h3>{notes[currentNoteIndex]?.name}</h3>
+                  <p>{notes[currentNoteIndex]?.content}</p>
+                </div>
+                <div className="carousel-navigation">
+                  <button onClick={previousNote}>◀ Previous</button>
+                  <button onClick={nextNote}>Next ▶</button>
+                </div>
+              </>
+            ) : (
+              <p>No memories added yet</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

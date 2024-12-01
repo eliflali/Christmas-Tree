@@ -1,0 +1,143 @@
+/* CSS Variables for easy theming */
+:root {
+    --deep-green: #0c340c;
+    --rich-red: #8B0000;
+    --gold-accent: #DAA520;
+    --soft-cream: #FFF5E1;
+    --black: #000000;
+  }
+  
+  /* Global Reset and Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Merriweather', serif;
+    line-height: 1.6;
+    background-color: var(--black);
+  }
+  
+  /* Login Page Container */
+  .christmas-login-page {
+    position: relative;
+    min-height: 100vh;
+    background: var(--black);
+    color: var(--gold-accent);
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+  }
+  
+ 
+  
+  /* Header */
+  .christmas-header {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .page-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: var(--gold-accent);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+    padding: 10px 20px;
+    border-radius: 15px;
+  }
+  
+  /* Login Card */
+  .login-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--gold-accent);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 400px;
+    margin: 0 auto;
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .login-title {
+    font-family: 'Great Vibes', cursive;
+    color: var(--gold-accent);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Inputs */
+  .login-input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--gold-accent);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--soft-cream);
+    font-family: 'Merriweather', serif;
+  }
+  
+  .login-input::placeholder {
+    color: rgba(218, 165, 32, 0.7);
+  }
+  
+  /* Button */
+  .login-button {
+    background: var(--rich-red);
+    color: var(--soft-cream);
+    border: 2px solid var(--gold-accent);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .login-button:hover {
+    background: var(--gold-accent);
+    color: var(--deep-green);
+    transform: scale(1.05);
+  }
+  
+  .error-message {
+    color: #FF4500;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .tree-title {
+      font-size: 2.5rem;
+    }
+  
+    .login-title {
+      font-size: 2rem;
+    }
+  }
+
+  .lights-container {
+    position: fixed;
+    width: 100%;
+    margin-bottom: 0px;
+    z-index: 0;
+  }
+  
+  .christmas-lights-video {
+    width: 100%; /* Adjust as needed */
+    height: 100%;
+    top:0;
+    left: 0;
+    border-radius: 0px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    display: block;
+  }
+  

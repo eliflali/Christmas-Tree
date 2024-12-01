@@ -5,6 +5,7 @@ import MainPage from './MainPage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import TreePage from './TreePage';
+import SharedTreePage from './SharedTreePage';
 
 const App = () => {
    return (
@@ -14,6 +15,7 @@ const App = () => {
                <Route path="/register" element={<RegisterPage />} />
                <Route path="/login" element={<LoginPage />} />
                <Route path="/tree/:treeId" element={<TreePage />} />
+               <Route path="/shared/:treeId" element={<SharedTreePage />} /> {/* Shared link route */}
            </Routes>
        </Router>
    );
