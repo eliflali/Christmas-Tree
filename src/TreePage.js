@@ -63,6 +63,8 @@ const TreePage = () => {
     );
   };
 
+  
+
   const redirectToNotesPage = () => {
     navigate(`/tree/${treeId}/notes`, { state: { notes, treeName: tree?.treeName } });
   };
@@ -78,6 +80,30 @@ const TreePage = () => {
       </div>
     );
   }
+
+  /*<div className="tree-container">
+        <div className="notes-on-tree">
+          {notes.map((note, index) => (
+            <div
+              key={note.id}
+              className="note-card-on-tree"
+              style={{
+                top: `${index * 12 + 10}%`, // Adjust vertical position
+                left: `${50 + Math.sin(index) * 30}%`, // Distribute horizontally
+              }}
+            >
+              <h3>{note.name.length > 15 ? `${note.name.slice(0, 7)}...` : note.name}</h3>
+              <div className="hanger"></div>
+            </div>
+          ))}
+        </div>
+        <img
+          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
+          alt="Christmas Tree"
+          className="elegant-tree"
+          onClick={() => redirectToNotesPage()}
+        />
+      </div> */
 
   if(!tree) {
     return (
@@ -126,13 +152,16 @@ const TreePage = () => {
       </header>
       
       <div className="tree-container">
+        
         <img
-          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`}  // Ensure this path is correct
+          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
           alt="Christmas Tree"
           className="elegant-tree"
           onClick={() => redirectToNotesPage()}
         />
       </div>
+
+
 
       {showCarousel && (
         <div className="memory-carousel" onClick={closeCarousel}>

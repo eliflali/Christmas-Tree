@@ -17,9 +17,6 @@ const LoginPage = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      console.log('Logged in as:', user);
-
       // Redirect to the user's tree page
       navigate(`/tree/${user.uid}`);
     } catch (err) {

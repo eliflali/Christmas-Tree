@@ -9,7 +9,7 @@ import SharedTreePage from './SharedTreePage';
 import NotesPage from './NotesPage';
 const App = () => {
    return (
-       <Router basename="/Christmas-Tree">
+       <Router>
            <Routes>
                <Route path="/" element={<MainPage />} />
                <Route path="/register" element={<RegisterPage />} />

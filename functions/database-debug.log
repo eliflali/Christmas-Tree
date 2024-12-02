@@ -2,3 +2,7 @@
 21:25:30.866 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
 21:25:36.076 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - christmas-tree-db307-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 64ms, init: 0ms
 21:25:36.126 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace christmas-tree-db307-default-rtdb status Active to Active
+02:47:35.310 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+02:47:35.369 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: christmas-tree-db307-default-rtdb
+02:47:35.377 [NamespaceSystem-akka.actor.default-dispatcher-13] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for christmas-tree-db307-default-rtdb
+02:47:35.384 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

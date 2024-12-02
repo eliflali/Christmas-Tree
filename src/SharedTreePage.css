@@ -80,27 +80,6 @@ body {
     border-radius:20px; /* Optional: Add rounded corners */
     margin-bottom: 1rem;
   }
-  
-
-/* Tree Container */
-.tree-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-}
-
-.elegant-tree {
-  max-width: 300px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
-}
-
-.elegant-tree:hover {
-  transform: scale(1.05);
-}
-
 /* Note Adding Container */
 .add-note-container {
   display: flex;

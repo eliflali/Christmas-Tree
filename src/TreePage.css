@@ -25,12 +25,14 @@ body {
 
 /* Main Container */
 .christmas-tree-page {
+  justify-content: center;
+  align-items: center;
   position: relative;
   min-height: 100vh;
   background: var(--black);
   color: var(--soft-cream);
   overflow: hidden;
-  padding: 2rem;
+  padding: 0rem;
 }
 
 
@@ -93,22 +95,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Tree Container */
-.tree-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-  z-index: 10;
-}
-
-.elegant-tree {
-  max-width: 300px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
-  z-index: 10;
-}
 
 .elegant-tree:hover {
   transform: scale(1.05);
@@ -219,9 +205,84 @@ body {
   }
   
 
+/* Updated Tree Container */
+.tree-container {
+  position: relative;
+  width: 500px; /* Define explicit width for tree container */
+  height: auto;
+  max-height: 500px;
+  margin: 0 auto; /* Center horizontally */
+  display: flex;
+  justify-content: center; /* Center contents horizontally */
+  align-items: center; /* Center contents vertically */
+  text-align: center;
+}
+
+/* Adjust Elegant Tree */
+.elegant-tree {
+  width: 100%; /* Ensure it fits within the container */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto; /* Center horizontally */
+  position: relative;
+  z-index: 10;
+}
+
+
+/* Updated Notes on Tree */
+.notes-on-tree {
+  margin-top: 3px;
+  position: absolute;
+  width: 60%;
+  height: 50%;
+  margin-bottom: 190px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  pointer-events: none; /* Prevent interference with tree image */
+  z-index: 20;
+}
+
+.note-card-on-tree {
+  position: absolute;
+  background: var(--rich-red); /* Red circular cards */
+  border: 2px solid var(--gold-accent); /* Gold border */
+  border-radius: 50%; /* Circular shape */
+  width: 50px; /* Increase size for better visibility */
+  height: 50px;
+  text-align: center;
+  color: var(--soft-cream);
+  font-family: 'Merriweather', serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 30;
+  pointer-events: auto; /* Allow interaction */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.note-card-on-tree h3 {
+  color: var(--gold-accent);
+  font-family: 'Merriweather', cursive;
+  font-size: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Updated Hanger Styling */
+.hanger {
+  position: absolute;
+  top: -12px; /* Above the note card */
+  width: 2px;
+  height: 15px;
+  background: var(--gold-accent); /* Gold string */
+  z-index: 10;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 600px) {
-  .tree-title {
+ .tree-title {
     font-size: 2.5rem;
   }
   
