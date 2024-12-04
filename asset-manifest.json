@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Christmas-Tree/static/css/main.16248a20.css",
-    "main.js": "/Christmas-Tree/static/js/main.b3127eeb.js",
-    "static/js/453.53044b76.chunk.js": "/Christmas-Tree/static/js/453.53044b76.chunk.js",
-    "static/media/gift.jpeg": "/Christmas-Tree/static/media/gift.1efe2e7857c2c3aa2c1f.jpeg",
-    "index.html": "/Christmas-Tree/index.html",
-    "main.16248a20.css.map": "/Christmas-Tree/static/css/main.16248a20.css.map",
-    "main.b3127eeb.js.map": "/Christmas-Tree/static/js/main.b3127eeb.js.map",
-    "453.53044b76.chunk.js.map": "/Christmas-Tree/static/js/453.53044b76.chunk.js.map"
+    "main.css": "/static/css/main.ba0b76db.css",
+    "main.js": "/static/js/main.473983dc.js",
+    "static/js/453.53044b76.chunk.js": "/static/js/453.53044b76.chunk.js",
+    "static/media/gift.jpeg": "/static/media/gift.1efe2e7857c2c3aa2c1f.jpeg",
+    "index.html": "/index.html",
+    "main.ba0b76db.css.map": "/static/css/main.ba0b76db.css.map",
+    "main.473983dc.js.map": "/static/js/main.473983dc.js.map",
+    "453.53044b76.chunk.js.map": "/static/js/453.53044b76.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.16248a20.css",
-    "static/js/main.b3127eeb.js"
+    "static/css/main.ba0b76db.css",
+    "static/js/main.473983dc.js"
   ]
 }
