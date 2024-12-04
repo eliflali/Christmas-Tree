@@ -280,6 +280,68 @@ body {
   z-index: 10;
 }
 
+/* Christmas Tree Styling */
+.christmas-tree {
+  z-index: 10;
+  color:var(--deep-green);
+  position: relative;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+  transition: all 0.3s ease;
+}
+
+.tree-trunk {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 60px;
+  background: #5D4037;
+  border-radius: 5px;
+}
+
+.ornament {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.ornament:hover {
+  transform: scale(1.2);
+  z-index: 100;
+}
+
+.ornament-string {
+  z-index: 100;
+  width: 2px;
+  height: 20px;
+  background: var(--gold-accent);
+  margin: 0 auto;
+}
+
+.ornament-ball {
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  background: var(--rich-red);
+  border: 2px solid var(--gold-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+}
+
+.ornament-name {
+  color: var(--soft-cream);
+  font-size: 0.7rem;
+  text-align: center;
+  padding: 2px;
+  font-family: 'Merriweather', serif;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 600px) {
  .tree-title {
@@ -291,3 +353,4 @@ body {
     font-size: 0.9rem;
   }
 }
+

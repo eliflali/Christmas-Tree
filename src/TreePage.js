@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import './TreePage.css'; // Ensure CSS is imported
-
+import ChristmasTree from './ChristmasTree';
 const db = getFirestore();
 
 const TreePage = () => {
@@ -14,6 +14,7 @@ const TreePage = () => {
   const [error, setError] = useState('');
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
+  const [selectedNote, setSelectedNote] = useState(null);
 
   // Fetch tree data
   useEffect(() => {
@@ -63,14 +64,18 @@ const TreePage = () => {
     );
   };
 
-  
-
   const redirectToNotesPage = () => {
     navigate(`/tree/${treeId}/notes`, { state: { notes, treeName: tree?.treeName } });
   };
 
   const closeCarousel = () => {
     setShowCarousel(false);
+  };
+
+  const handleNoteClick = (note) => {
+    setSelectedNote(note);
+    setShowCarousel(true);
+    setCurrentNoteIndex(notes.findIndex(n => n.id === note.id));
   };
 
   if (error) {
@@ -81,40 +86,34 @@ const TreePage = () => {
     );
   }
 
-  /*<div className="tree-container">
-        <div className="notes-on-tree">
-          {notes.map((note, index) => (
-            <div
-              key={note.id}
-              className="note-card-on-tree"
-              style={{
-                top: `${index * 12 + 10}%`, // Adjust vertical position
-                left: `${50 + Math.sin(index) * 30}%`, // Distribute horizontally
-              }}
-            >
-              <h3>{note.name.length > 15 ? `${note.name.slice(0, 7)}...` : note.name}</h3>
-              <div className="hanger"></div>
-            </div>
-          ))}
-        </div>
-        <img
-          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
-          alt="Christmas Tree"
-          className="elegant-tree"
-          onClick={() => redirectToNotesPage()}
-        />
-      </div> */
-
   if(!tree) {
     return (
-    <div className="loading-container">
-      <img
-        src={`${process.env.PUBLIC_URL}/loading.gif`} // Ensure this path is correct
-        alt="Christmas Tree"
-        className="loading-tree"
-      />
-    </div>);
+      <div className="loading-container">
+        <img
+          src={`${process.env.PUBLIC_URL}/loading.gif`}
+          alt="Christmas Tree"
+          className="loading-tree"
+        />
+      </div>
+    );
   }
+
+  // Calculate tree size based on number of notes, minimum 3 rows
+  const minRows = 3;
+  const notesPerRow = [1, 2, 3]; // First 3 rows fixed pattern
+  let totalPositions = notesPerRow.reduce((a, b) => a + b, 0); // 6 positions for first 3 rows
+  
+  // Add more rows if needed based on number of notes
+  if (notes.length > totalPositions) {
+    const extraNotes = notes.length - totalPositions;
+    const extraRows = Math.ceil(extraNotes / 4); // 4 ornaments per extra row
+    for (let i = 0; i < extraRows; i++) {
+      notesPerRow.push(4);
+    }
+    totalPositions += extraRows * 4;
+  }
+
+  const treeSize = Math.max(400, 400 + (notesPerRow.length * 30)); // Base size 400px, grows by 30px per row
 
   return (
     <div className="christmas-tree-page">
@@ -140,7 +139,7 @@ const TreePage = () => {
             className="christmas-button" 
             onClick={() => setShowCarousel(true)}
           >
-            🎄 View Memories
+            🎄 View All Memories
           </button>
           <button 
             className="christmas-button" 
@@ -152,16 +151,66 @@ const TreePage = () => {
       </header>
       
       <div className="tree-container">
+        <div 
+          className="christmas-tree" 
+          style={{ 
+            height: `${treeSize}px`,
+            width: `${treeSize * 0.8}px`,
+            backgroundColor: 'var(--deep-green)',
+            zIndex: 10,
+            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+            position: 'relative'
+          }}
+        >
+          {notes.map((note, index) => {
+            // Find which row this note belongs to
+            let currentRow = 0;
+            let positionInRow = index;
+            let rowSum = 0;
+            
+            while (positionInRow >= notesPerRow[currentRow]) {
+              positionInRow -= notesPerRow[currentRow];
+              rowSum += notesPerRow[currentRow];
+              currentRow++;
+            }
+
+            const verticalSpacing = treeSize / (notesPerRow.length + 1);
+            const top = verticalSpacing * (currentRow + 1);
+            
+            // Calculate width at this height
+            const heightRatio = top / treeSize;
+            const rowWidth = (treeSize * 0.8) * (1 - (heightRatio * 0.5));
+            
+            // Space ornaments evenly in row
+            const ornamentSpacing = rowWidth / (notesPerRow[currentRow] + 1);
+            const left = ornamentSpacing * (positionInRow + 1);
+            
+            return (
+              <div
+                key={note.id}
+                className="ornament"
+                style={{
+                  position: 'absolute',
+                  top: `${top}px`,
+                  left: `${left}px`,
+                  transform: 'translate(-50%, -50%)', // Center the ornament at its position
+                }}
+                onClick={() => handleNoteClick(note)}
+              >
+                <div className="ornament-string"></div>
+                <div className="ornament-ball">
+                  <span className="ornament-name">
+                    {note.name.length > 10 ? `${note.name.slice(0, 10)}...` : note.name}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+          <div className="tree-trunk"></div>
+        </div>
         
-        <img
-          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
-          alt="Christmas Tree"
-          className="elegant-tree"
-          onClick={() => redirectToNotesPage()}
-        />
       </div>
-
-
+      <ChristmasTree notes={notes} />
 
       {showCarousel && (
         <div className="memory-carousel" onClick={closeCarousel}>
