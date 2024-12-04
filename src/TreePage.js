@@ -52,7 +52,7 @@ const TreePage = () => {
   };
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/Christmas-Tree/shared/${treeId}`;
+    const link = `${window.location.origin}/shared/${treeId}`;  
     navigator.clipboard.writeText(link);
     alert('Tree link copied to clipboard!');
   };
@@ -62,8 +62,6 @@ const TreePage = () => {
       prevIndex === 0 ? notes.length - 1 : prevIndex - 1
     );
   };
-
-  
 
   const redirectToNotesPage = () => {
     navigate(`/tree/${treeId}/notes`, { state: { notes, treeName: tree?.treeName } });

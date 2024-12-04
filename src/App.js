@@ -7,15 +7,16 @@ import LoginPage from './LoginPage';
 import TreePage from './TreePage';
 import SharedTreePage from './SharedTreePage';
 import NotesPage from './NotesPage';
+
 const App = () => {
    return (
-       <Router basename='/Christmas-Tree'>
+       <Router>
            <Routes>
                <Route path="/" element={<MainPage />} />
                <Route path="/register" element={<RegisterPage />} />
                <Route path="/login" element={<LoginPage />} />
                <Route path="/tree/:treeId" element={<TreePage />} />
-               <Route path="/shared/:treeId" element={<SharedTreePage />} /> {/* Shared link route */}
+               <Route path="/shared/:treeId" element={<SharedTreePage />} />
                <Route path="/tree/:treeId/notes" element={<NotesPage />} />
            </Routes>
        </Router>

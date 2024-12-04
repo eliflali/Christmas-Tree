@@ -22,3 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 src/firebase.js
+
+# firebase
+.env
+.firebase/
+*.cache
+
+# keep firebase config files
+!firebase.json
+!database.rules.json
