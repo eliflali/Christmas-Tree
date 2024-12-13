@@ -209,5 +209,59 @@ body {
     height: auto; /* Maintain aspect ratio */
     margin-bottom: 15px;
   }
+
+  .photo-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .photo-input {
+    display: none;
+  }
+  
+  .photo-upload-label {
+    display: inline-block;
+    background: var(--gold-accent);
+    color: var(--deep-green);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    font-family: 'Merriweather', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--deep-green);
+  }
+  
+  .photo-upload-label:hover {
+    background: var(--deep-green);
+    color: var(--soft-cream);
+    transform: scale(1.05);
+  }
+  
+  .photo-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    max-height: 300px;
+    overflow: hidden;
+    border: 3px solid var(--gold-accent);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  
   
   
