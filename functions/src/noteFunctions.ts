@@ -1,9 +1,7 @@
 import * as functions from "firebase-functions";
 import {admin, db} from "./firebaseAdmin";
-import {getStorage} from "firebase-admin/storage";
 import cors from "cors";
 
-const storage = getStorage();
 const corsHandler = cors({origin: true});
 
 interface AddNoteData {
@@ -20,25 +18,6 @@ interface DeleteNoteData {
   noteId: string;
 }
 
-/* 
-Test with Postman:
-
-POST https://us-central1-[YOUR-PROJECT-ID].cloudfunctions.net/addNote
-
-Headers:
-Content-Type: application/json
-
-Request Body:
-{
-  "treeId": "your-tree-id",
-  "note": {
-    "content": "This is a test memory",
-    "name": "Test User"
-  },
-  "photoBase64": "optional-base64-encoded-image"
-}
-*/
-
 export const addNote = functions.https.onRequest((req, res) => {
   return corsHandler(req, res, async () => {
     try {
@@ -52,38 +31,12 @@ export const addNote = functions.https.onRequest((req, res) => {
         return;
       }
 
-      let photoURL = null;
-
-      // If photoBase64 is provided, upload the photo
-      if (photoBase64) {
-        const bucket = storage.bucket();
-        const timestamp = Date.now();
-        const randomStr = Math.random().toString(36).substring(2, 15);
-        const photoId = `${treeId}/${timestamp}-${randomStr}.jpg`;
-        const file = bucket.file(`notes/${photoId}`);
-        const buffer = Buffer.from(photoBase64, "base64");
-
-        const downloadToken = Math.random().toString(36).substring(2, 15) +
-                            Math.random().toString(36).substring(2, 15);
-
-        await file.save(buffer, {
-          contentType: "image/jpeg",
-          metadata: {
-            firebaseStorageDownloadTokens: downloadToken,
-          },
-        });
-
-        // Get public URL for the uploaded photo
-        photoURL = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/notes%2F${encodeURIComponent(
-          photoId
-        )}?alt=media`;
-      }
-
+      // Create note data with base64 image if provided
       const noteData = {
         content: note.content,
         name: note.name,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
-        photoURL,
+        photoBase64: photoBase64 || null,
       };
 
       const noteDoc = await db
@@ -97,10 +50,14 @@ export const addNote = functions.https.onRequest((req, res) => {
         noteId: noteDoc.id,
         message: "Note added successfully.",
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error adding note:", error);
+      const errorMessage = error instanceof Error ?
+        error.message :
+        "Failed to add note.";
       res.status(500).json({
-        error: "Failed to add note.",
+        error: errorMessage,
+        details: error instanceof Error ? error.stack : undefined,
       });
     }
   });
@@ -125,17 +82,6 @@ export const deleteNote = functions.https.onRequest((req, res) => {
         .collection("notes")
         .doc(noteId);
 
-      // Delete photo from storage if it exists
-      const noteDoc = await noteRef.get();
-      if (noteDoc.exists && noteDoc.data()?.photoURL) {
-        const photoURL = noteDoc.data()?.photoURL;
-        const photoPath = decodeURIComponent(
-          photoURL.split("/o/")[1].split("?")[0]
-        );
-        const file = storage.bucket().file(photoPath);
-        await file.delete();
-      }
-
       // Delete the note document
       await noteRef.delete();
 
@@ -143,10 +89,14 @@ export const deleteNote = functions.https.onRequest((req, res) => {
         success: true,
         message: "Note deleted successfully.",
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error deleting note:", error);
+      const errorMessage = error instanceof Error ?
+        error.message :
+        "Failed to delete note.";
       res.status(500).json({
-        error: "Failed to delete note.",
+        error: errorMessage,
+        details: error instanceof Error ? error.stack : undefined,
       });
     }
   });

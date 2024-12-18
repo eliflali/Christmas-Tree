@@ -158,32 +158,38 @@ const TreePage = () => {
           onClick={() => redirectToNotesPage()}
         />
       </div>
-
-
-
       {showCarousel && (
-        <div className="memory-carousel" onClick={closeCarousel}>
+  <div className="memory-carousel" onClick={closeCarousel}>
+    <div 
+      className="carousel-content" 
+      onClick={(e) => e.stopPropagation()}
+    >
+      {notes.length > 0 ? (
+        <>
           <div 
-            className="carousel-content" 
-            onClick={(e) => e.stopPropagation()}
+            className="memory-card"
+            style={{
+              backgroundImage: notes[currentNoteIndex]?.photoBase64 
+                ? `url(data:image/jpeg;base64,${notes[currentNoteIndex].photoBase64})`
+                : 'none'
+            }}
           >
-            {notes.length > 0 ? (
-              <>
-                <div className="memory-card">
-                  <h3>{notes[currentNoteIndex]?.name}</h3>
-                  <p>{notes[currentNoteIndex]?.content}</p>
-                </div>
-                <div className="carousel-navigation">
-                  <button onClick={previousNote}>◀ Previous</button>
-                  <button onClick={nextNote}>Next ▶</button>
-                </div>
-              </>
-            ) : (
-              <p>No memories added yet</p>
-            )}
+            <div className="memory-content">
+              <h3>{notes[currentNoteIndex]?.name}</h3>
+              <p>{notes[currentNoteIndex]?.content}</p>
+            </div>
           </div>
-        </div>
+          <div className="carousel-navigation">
+            <button onClick={previousNote}>◀ Previous</button>
+            <button onClick={nextNote}>Next ▶</button>
+          </div>
+        </>
+      ) : (
+        <p>No memories added yet</p>
       )}
+    </div>
+  </div>
+)}
     </div>
   );
 };
