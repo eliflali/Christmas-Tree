@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, query, onSnapshot } from 'firebase/firestore';
-import './TreePage.css'; // Ensure CSS is imported
+import './TreePage.css';
 
 const db = getFirestore();
 
 const TreePage = () => {
   const { treeId } = useParams();
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
   const [tree, setTree] = useState(null);
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
+  const [explosionImages, setExplosionImages] = useState([]);
 
   // Fetch tree data
   useEffect(() => {
@@ -47,14 +48,35 @@ const TreePage = () => {
     return () => unsubscribe();
   }, [treeId]);
 
+  // Handle explosion effect
+  useEffect(() => {
+    if (notes[currentNoteIndex]?.photoBase64) {
+      const numPieces = 30;
+      const newPieces = [];
+      
+      for (let i = 0; i < numPieces; i++) {
+        const randomX = Math.random() * window.innerWidth;
+        const randomDelay = Math.random() * 2; // Reduced from 10 to 2 seconds
+        const randomDuration = 2 + Math.random() * 2; // Reduced duration
+        const randomScale = 0.5 + Math.random() * 0.5;
+        
+        newPieces.push({
+          id: i,
+          startX: randomX,
+          delay: randomDelay,
+          duration: randomDuration,
+          scale: randomScale
+        });
+      }
+      
+      setExplosionImages(newPieces);
+      const timer = setTimeout(() => setExplosionImages([]), 8000); // Reduced from 15000
+      return () => clearTimeout(timer);
+    }
+  }, [currentNoteIndex, notes]);
+
   const nextNote = () => {
     setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
-  };
-
-  const handleCopyLink = () => {
-    const link = `${window.location.origin}/shared/${treeId}`;  
-    navigator.clipboard.writeText(link);
-    alert('Tree link copied to clipboard!');
   };
 
   const previousNote = () => {
@@ -63,8 +85,16 @@ const TreePage = () => {
     );
   };
 
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/shared/${treeId}`;  
+    navigator.clipboard.writeText(link);
+    alert('Tree link copied to clipboard!');
+  };
+
   const redirectToNotesPage = () => {
-    navigate(`/tree/${treeId}/notes`, { state: { notes, treeName: tree?.treeName } });
+    navigate(`/tree/${treeId}/notes`, { 
+      state: { notes, treeName: tree?.treeName } 
+    });
   };
 
   const closeCarousel = () => {
@@ -74,44 +104,23 @@ const TreePage = () => {
   if (error) {
     return (
       <div className="christmas-tree-page">
-        <p className="error-message">Oh we are so sorry, but this tree is not available.</p>
+        <p className="error-message">
+          Oh we are so sorry, but this tree is not available.
+        </p>
       </div>
     );
   }
 
-  /*<div className="tree-container">
-        <div className="notes-on-tree">
-          {notes.map((note, index) => (
-            <div
-              key={note.id}
-              className="note-card-on-tree"
-              style={{
-                top: `${index * 12 + 10}%`, // Adjust vertical position
-                left: `${50 + Math.sin(index) * 30}%`, // Distribute horizontally
-              }}
-            >
-              <h3>{note.name.length > 15 ? `${note.name.slice(0, 7)}...` : note.name}</h3>
-              <div className="hanger"></div>
-            </div>
-          ))}
-        </div>
-        <img
-          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
-          alt="Christmas Tree"
-          className="elegant-tree"
-          onClick={() => redirectToNotesPage()}
-        />
-      </div> */
-
-  if(!tree) {
+  if (!tree) {
     return (
-    <div className="loading-container">
-      <img
-        src={`${process.env.PUBLIC_URL}/loading.gif`} // Ensure this path is correct
-        alt="Christmas Tree"
-        className="loading-tree"
-      />
-    </div>);
+      <div className="loading-container">
+        <img
+          src={`${process.env.PUBLIC_URL}/loading.gif`}
+          alt="Christmas Tree"
+          className="loading-tree"
+        />
+      </div>
+    );
   }
 
   return (
@@ -129,10 +138,9 @@ const TreePage = () => {
           Your browser does not support the video tag.
         </video>
       </div>
+
       <header className="christmas-header">
-        <h1 className="tree-title">
-          {error || (!tree ? 'Christmas Memory Tree' : tree.treeName)}
-        </h1>
+        <h1 className="tree-title">{tree.treeName}</h1>
         <div className="tree-actions">
           <button 
             className="christmas-button" 
@@ -148,48 +156,60 @@ const TreePage = () => {
           </button>
         </div>
       </header>
-      
+
       <div className="tree-container">
-        
         <img
-          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`} // Ensure this path is correct
+          src={`${process.env.PUBLIC_URL}/christmas_tree.webp`}
           alt="Christmas Tree"
           className="elegant-tree"
           onClick={() => redirectToNotesPage()}
         />
       </div>
+
       {showCarousel && (
-  <div className="memory-carousel" onClick={closeCarousel}>
-    <div 
-      className="carousel-content" 
-      onClick={(e) => e.stopPropagation()}
-    >
-      {notes.length > 0 ? (
-        <>
+        <div className="memory-carousel" onClick={closeCarousel}>
           <div 
-            className="memory-card"
-            style={{
-              backgroundImage: notes[currentNoteIndex]?.photoBase64 
-                ? `url(data:image/jpeg;base64,${notes[currentNoteIndex].photoBase64})`
-                : 'none'
-            }}
+            className="carousel-content" 
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="memory-content">
-              <h3>{notes[currentNoteIndex]?.name}</h3>
-              <p>{notes[currentNoteIndex]?.content}</p>
-            </div>
+            {notes.length > 0 ? (
+              <>
+                <div className="memory-card">
+                  <div className="memory-content">
+                    <h3>{notes[currentNoteIndex]?.name}</h3>
+                    <p>{notes[currentNoteIndex]?.content}</p>
+                  </div>
+                </div>
+                <div className="carousel-navigation">
+                  <button onClick={previousNote}>◀ Previous</button>
+                  <button onClick={nextNote}>Next ▶</button>
+                </div>
+              </>
+            ) : (
+              <p>No memories added yet</p>
+            )}
           </div>
-          <div className="carousel-navigation">
-            <button onClick={previousNote}>◀ Previous</button>
-            <button onClick={nextNote}>Next ▶</button>
-          </div>
-        </>
-      ) : (
-        <p>No memories added yet</p>
+        </div>
       )}
-    </div>
-  </div>
-)}
+
+      {notes[currentNoteIndex]?.photoBase64 && (
+        <div className="snow-container">
+          {explosionImages.map((piece) => (
+            <img
+              key={piece.id}
+              src={`data:image/jpeg;base64,${notes[currentNoteIndex].photoBase64}`}
+              alt=""
+              className="snow-piece"
+              style={{
+                '--startX': `${piece.startX}px`,
+                '--delay': `${piece.delay}s`,
+                '--duration': `${piece.duration}s`,
+                '--scale': piece.scale
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
