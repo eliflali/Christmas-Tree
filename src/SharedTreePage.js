@@ -1,60 +1,172 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection, addDoc } from 'firebase/firestore';
-import './SharedTreePage.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import "./SharedTreePage.css";
 
 const db = getFirestore();
+
+const compressImage = (file, maxWidth = 800) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ratio = maxWidth / img.width;
+        const newWidth = maxWidth;
+        const newHeight = img.height * ratio;
+        
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        
+        // Convert to JPEG with reduced quality
+        canvas.toBlob(
+          (blob) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+              const base64data = reader.result.split(',')[1];
+              resolve(base64data);
+            };
+          },
+          'image/jpeg',
+          0.6  // Compression quality (0.6 = 60% quality)
+        );
+      };
+    };
+  });
+};
 
 const SharedTreePage = () => {
   const { treeId } = useParams();
   const [tree, setTree] = useState(null);
-  const [noteContent, setNoteContent] = useState('');
-  const [noteName, setNoteName] = useState('');
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
-  const [showGif, setShowGif] = useState(false); // State to show GIF
+  const [noteContent, setNoteContent] = useState("");
+  const [noteName, setNoteName] = useState("");
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [showGif, setShowGif] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch tree data
   useEffect(() => {
     const fetchTree = async () => {
       try {
-        const treeDoc = await getDoc(doc(db, 'trees', treeId));
+        const treeDoc = await getDoc(doc(db, "trees", treeId));
         if (treeDoc.exists()) {
           setTree(treeDoc.data());
         } else {
-          setError('Tree not found');
+          setError("Tree not found");
         }
       } catch (err) {
         console.error(err);
-        setError('Failed to fetch tree data');
+        setError("Failed to fetch tree data");
       }
     };
     fetchTree();
   }, [treeId]);
 
-  const handleAddNote = async () => {
-    if (!noteContent || !noteName) {
-      setError('Please fill in both fields.');
-      return;
-    }
-    try {
-      await addDoc(collection(db, 'trees', treeId, 'notes'), {
-        content: noteContent,
-        name: noteName,
-        createdAt: new Date(),
-      });
-      setSuccess('Note added successfully!');
-      setNoteContent('');
-      setNoteName('');
-      setShowGif(true); // Show the GIF
-      setTimeout(() => setShowGif(false), 3000); // Hide GIF after 3 seconds
-    } catch (err) {
-      console.error(err);
-      setError('Failed to add note.');
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size before processing (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Image size should be less than 5MB");
+        return;
+      }
+      
+      setPhoto(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  if (error) {
+  const handleAddNote = async () => {
+    if (!noteContent || !noteName) {
+      setError("Please fill in both fields.");
+      return;
+    }
+  
+    if (isSubmitting) {
+      return;
+    }
+  
+    setIsSubmitting(true);
+    setError("");
+  
+    try {
+      let photoBase64 = null;
+      if (photo) {
+        try {
+          photoBase64 = await compressImage(photo);
+          console.log("Image compressed successfully");
+        } catch (err) {
+          console.error('Error compressing image:', err);
+          setError("Failed to process the image. Please try a different photo.");
+          setIsSubmitting(false);
+          return;
+        }
+      }
+  
+      const requestData = {
+        treeId,
+        note: {
+          content: noteContent,
+          name: noteName,
+        },
+        photoBase64,
+      };
+  
+      console.log("Sending request with data:", {
+        ...requestData,
+        photoBase64: photoBase64 ? 'base64_data_present' : null
+      });
+  
+      const response = await fetch(
+        'https://us-central1-christmas-tree-db307.cloudfunctions.net/addNote',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData)
+        }
+      );
+  
+      const result = await response.json();
+      
+      if (!response.ok) {
+        console.error('Server response:', result);
+        throw new Error(result.details || result.error || 'Failed to add note');
+      }
+  
+      console.log('Success:', result);
+      setSuccess("Note added successfully!");
+      setNoteContent("");
+      setNoteName("");
+      setPhoto(null);
+      setPhotoPreview(null);
+      setShowGif(true);
+      setTimeout(() => setShowGif(false), 3000);
+    } catch (err) {
+      console.error('Error details:', err);
+      setError(err.message || "Failed to add note. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (error && !tree) {
     return (
       <div className="christmas-tree-page">
         <p className="error-message">Oh we are so sorry, but this tree is not available.</p>
@@ -66,7 +178,7 @@ const SharedTreePage = () => {
     return (
       <div className="loading-container">
         <img
-          src={`${process.env.PUBLIC_URL}/loading.gif`} // Ensure this path is correct
+          src={`${process.env.PUBLIC_URL}/loading.gif`}
           alt="Christmas Tree"
           className="loading-tree"
         />
@@ -91,14 +203,14 @@ const SharedTreePage = () => {
       </div>
 
       <header className="christmas-header">
-        <h1 className="tree-title">{tree.treeName || 'Shared Christmas Tree'}</h1>
+        <h1 className="tree-title">{tree.treeName || "Shared Christmas Tree"}</h1>
       </header>
 
       <div className="add-note-container">
         {showGif ? (
           <div className="gif-container">
             <img
-              src={`${process.env.PUBLIC_URL}/tree_monster.gif`} // Path to your GIF
+              src={`${process.env.PUBLIC_URL}/tree_monster.gif`}
               alt="Tree Monster"
               className="tree-monster-gif"
             />
@@ -122,13 +234,35 @@ const SharedTreePage = () => {
               onChange={(e) => setNoteContent(e.target.value)}
               className="note-textarea"
             />
-            <button onClick={handleAddNote} className="christmas-button">
-              🎄 Add Memory
+            <div className="photo-upload-container">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="photo-input"
+                id="photo-upload"
+              />
+              <label htmlFor="photo-upload" className="christmas-button">
+                📷 Add a Photo
+              </label>
+              {photoPreview && (
+                <div className="photo-preview">
+                  <img src={photoPreview} alt="Preview" className="preview-image" />
+                </div>
+              )}
+            </div>
+            <button 
+              onClick={handleAddNote} 
+              className="christmas-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? '⏳ Adding...' : '🎄 Add Memory'}
             </button>
           </div>
         )}
 
         {error && <p className="error-message">{error}</p>}
+        {success && !showGif && <p className="success-message">{success}</p>}
       </div>
     </div>
   );
