@@ -204,7 +204,41 @@ body {
     color: var(--deep-green);
   }
   
-
+  .copy-notification {
+    position: fixed;
+    top: 20px; /* Adjust to position near the top */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold-accent);
+    color: var(--deep-green);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    font-weight: bold;
+    z-index: 1000; /* Ensure it appears above other elements */
+    animation: fadeInOut 2s ease-in-out; /* Add a fade-in and fade-out effect */
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+    }
+  }
+  
 /* Updated Tree Container */
 .tree-container {
   position: relative;

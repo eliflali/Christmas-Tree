@@ -15,6 +15,7 @@ const TreePage = () => {
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
   const [explosionImages, setExplosionImages] = useState([]);
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
 
   // Fetch tree data
   useEffect(() => {
@@ -86,10 +87,16 @@ const TreePage = () => {
   };
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/shared/${treeId}`;  
+    const link = `${window.location.origin}/shared/${treeId}`;
     navigator.clipboard.writeText(link);
-    alert('Tree link copied to clipboard!');
+  
+    // Show notification
+    setShowCopyNotification(true);
+  
+    // Hide notification after 2 seconds
+    setTimeout(() => setShowCopyNotification(false), 2000);
   };
+  
 
   const redirectToNotesPage = () => {
     navigate(`/tree/${treeId}/notes`, { 
@@ -191,6 +198,12 @@ const TreePage = () => {
           </div>
         </div>
       )}
+      {showCopyNotification && (
+        <div className="copy-notification">
+          🎉 Link copied to clipboard!
+        </div>
+      )}
+
 
       {notes[currentNoteIndex]?.photoBase64 && (
         <div className="snow-container">

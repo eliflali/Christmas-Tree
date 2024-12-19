@@ -262,6 +262,86 @@ body {
     border-radius: 5px;
     object-fit: cover;
   }
-  
-  
+  /* Photo Upload Button */
+/* Button Container */
+.memory-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--gold-accent);
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 10;
+}
+
+/* Common Button Styles */
+.photo-upload-button,
+.add-memory-button,
+.create-tree-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-family: 'Merriweather', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Photo Upload Button */
+.photo-upload-button {
+  background: transparent;
+  color: var(--gold-accent);
+  border: 2px dashed var(--gold-accent);
+}
+
+.photo-upload-button:hover {
+  background: rgba(218, 165, 32, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Add Memory Button */
+.add-memory-button {
+  background: var(--rich-red);
+  color: var(--soft-cream);
+  border: 2px solid var(--gold-accent);
+  margin-top: 1.5rem;
+}
+
+.add-memory-button:hover {
+  background: #a00000;
+  transform: translateY(-2px);
+}
+
+/* Create Tree Button */
+.create-tree-button {
+  background: var(--gold-accent);
+  color: var(--deep-green);
+  border: 2px solid var(--deep-green);
+  margin-top: 1rem;
+}
+
+.create-tree-button:hover {
+  background: #c69210;
+  transform: translateY(-2px);
+}
+
+/* Photo Preview Adjustments */
+.photo-preview {
+  margin: 1rem 0;
+}
+
+/* Disabled Button State */
+.add-memory-button:disabled,
+.create-tree-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
   

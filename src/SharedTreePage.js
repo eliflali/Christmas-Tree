@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import "./SharedTreePage.css";
 
@@ -46,6 +46,7 @@ const compressImage = (file, maxWidth = 800) => {
 
 const SharedTreePage = () => {
   const { treeId } = useParams();
+  const navigate = useNavigate();
   const [tree, setTree] = useState(null);
   const [noteContent, setNoteContent] = useState("");
   const [noteName, setNoteName] = useState("");
@@ -90,6 +91,10 @@ const SharedTreePage = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleCreateTree=()=>{
+    navigate(`/register`);
+  }
 
   const handleAddNote = async () => {
     if (!noteContent || !noteName) {
@@ -235,29 +240,39 @@ const SharedTreePage = () => {
               className="note-textarea"
             />
             <div className="photo-upload-container">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-                className="photo-input"
-                id="photo-upload"
-              />
-              <label htmlFor="photo-upload" className="christmas-button">
-                📷 Add a Photo
-              </label>
-              {photoPreview && (
-                <div className="photo-preview">
-                  <img src={photoPreview} alt="Preview" className="preview-image" />
-                </div>
-              )}
-            </div>
-            <button 
-              onClick={handleAddNote} 
-              className="christmas-button"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? '⏳ Adding...' : '🎄 Add Memory'}
-            </button>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="photo-input"
+              id="photo-upload"
+            />
+            <label htmlFor="photo-upload" className="photo-upload-button">
+              📷 Add a Photo to Memory
+            </label>
+            {photoPreview && (
+              <div className="photo-preview">
+                <img src={photoPreview} alt="Preview" className="preview-image" />
+              </div>
+            )}
+          </div>
+
+          <button 
+            onClick={handleAddNote} 
+            className="add-memory-button"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? '⏳ Adding...' : '🎄 Add Memory'}
+          </button>
+
+          <button 
+            onClick={handleCreateTree} 
+            className="create-tree-button"
+            disabled={isSubmitting}
+          >
+            🎄 Create Your Own Tree
+          </button>
+
           </div>
         )}
 
